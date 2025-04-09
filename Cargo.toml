@@ -3,4 +3,10 @@ name = "tomato"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
+[lib]
+name = "tomato"
+path = "src/lib.rs"
+
+[[bin]]
+name = "tomato-cli"
+path = "src/main.rs"
