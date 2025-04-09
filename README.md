@@ -34,3 +34,14 @@ s "Work"
 [denis@black ~]$ busctl --user get-property org.pomodoro.Timer /org/pomodoro/Timer org.pomodoro.Timer Mode
 s "ShortBreak"
 ```
+
+Lua
+```
+Starting timer...
+Remaining: 4 (Δ 0.996 s)
+Remaining: 3 (Δ 1.993 s)
+Remaining: 2 (Δ 2.989 s)
+Remaining: 1 (Δ 3.985 s)
+
+Timer finished! (CPU: 4.981 s, Wall: 5 s)
+```
