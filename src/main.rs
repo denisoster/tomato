@@ -1,12 +1,27 @@
 use std::time::{Duration};
-use std::thread;
+use std::{env, thread};
 use std::io::{self, Write};
 use std::sync::mpsc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use tomato::{PomodoroTimer, TimerCommand};
+use tomato::dbus::server;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    let daemon_mode = args.len() > 1 && args[1] == "--daemon";
+
+    if daemon_mode {
+        if let Err(e) = run_daemon() {
+            eprintln!("Error running daemon: {}", e);
+            std::process::exit(1);
+        }
+    } else {
+        run_interactive()
+    }
+}
+
+fn run_interactive() {
     let mut timer = PomodoroTimer::default();
     let running = Arc::new(AtomicBool::new(true));
     let running_clone = running.clone();
@@ -61,4 +76,8 @@ fn main() {
     }
 
     println!("\nPomodoro Timer stopped.");
+}
+
+fn run_daemon() -> zbus::Result<()> {
+    smol::block_on(server())
 }
